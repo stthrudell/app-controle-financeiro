@@ -299,7 +299,7 @@ function carregaListaDespesas(despesas = Array(), filtro = false) {
  function floatParaDinheiro(valor){
 	$('body').append($('<input>', {style: 'display: none;', id: 'input_masked'}));
 	$("#input_masked").val(valor.toFixed(2).replace('.', ''))
-	$("#input_masked").mask('000.000.000.000.000,00', {reverse: true});
+	$("#input_masked").mask("#.##0,00", {reverse: true});
 
 	let masked = $("#input_masked").val()
 
