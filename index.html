@@ -14,6 +14,9 @@
     <!-- Font Awesome -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 
+    <!-- Jquery Mask -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
     <script src="app.js"></script>
 
 	</head>
@@ -44,71 +47,73 @@
       </div>
     </nav>
 
-    <div class="container">
-      <div class="row">
-        <div class="col mb-5">
-          <h1 class="display-4">Registro de nova despesa</h1>
+    <form action="#" id="cadastro">
+      <div class="container">
+        <div class="row">
+          <div class="col mb-5">
+            <h1 class="display-4">Registro de nova despesa</h1>
+          </div>
+        </div>
+  
+        <div class="row mb-2">
+          <div class="col-md-2">
+            <select class="form-control" id="ano">
+              <option disabled="true" selected>Ano</option>
+              <option value="2018">2018</option>
+            </select>
+          </div>
+  
+          <div class="col-md-2">
+            <select class="form-control" id="mes">
+              <option disabled="true" selected value="">Mês</option>
+              <option value="1">Janeiro</option>
+              <option value="2">Fevereiro</option>
+              <option value="3">Março</option>
+              <option value="4">Abril</option>
+              <option value="5">Maio</option>
+              <option value="6">Junho</option>
+              <option value="7">Julho</option>
+              <option value="8">Agosto</option>
+              <option value="9">Setembro</option>
+              <option value="10">Outubro</option>
+              <option value="11">Novembro</option>
+              <option value="12">Dezembro</option>
+            </select>
+          </div>
+          
+          <div class="col-md-2">
+            <input type="number" class="form-control" step="1" min="1" max="31" placeholder="Dia" id="dia" />
+          </div>
+  
+          <div class="col-md-6">
+            <select class="form-control" id="tipo">
+              <option disabled="true" selected value="">Tipo</option>
+              <option value="1">Alimentação</option>
+              <option value="2">Educação</option>
+              <option value="3">Lazer</option>
+              <option value="4">Saúde</option>
+              <option value="5">Transporte</option>
+            </select>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="col-md-8">
+            <input type="text" class="form-control" placeholder="Descrição" id="descricao" />
+          </div>
+  
+          <div class="col-md-2">
+            <input type="text" class="form-control" placeholder="Valor" id="valor" />
+          </div>
+  
+          <div class="col-md-2 d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
         </div>
       </div>
-
-      <div class="row mb-2">
-        <div class="col-md-2">
-          <select class="form-control" id="ano">
-            <option value="">Ano</option>
-            <option value="2018">2018</option>
-          </select>
-        </div>
-
-        <div class="col-md-2">
-          <select class="form-control" id="mes">
-            <option value="">Mês</option>
-            <option value="1">Janeiro</option>
-            <option value="2">Fevereiro</option>
-            <option value="3">Março</option>
-            <option value="4">Abril</option>
-            <option value="5">Maio</option>
-            <option value="6">Junho</option>
-            <option value="7">Julho</option>
-            <option value="8">Agosto</option>
-            <option value="9">Setembro</option>
-            <option value="10">Outubro</option>
-            <option value="11">Novembro</option>
-            <option value="12">Dezembro</option>
-          </select>
-        </div>
-        
-        <div class="col-md-2">
-          <input type="text" class="form-control" placeholder="Dia" id="dia" />
-        </div>
-
-        <div class="col-md-6">
-          <select class="form-control" id="tipo">
-            <option value="">Tipo</option>
-            <option value="1">Alimentação</option>
-            <option value="2">Educação</option>
-            <option value="3">Lazer</option>
-            <option value="4">Saúde</option>
-            <option value="5">Transporte</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-8">
-          <input type="text" class="form-control" placeholder="Descrição" id="descricao" />
-        </div>
-
-        <div class="col-md-2">
-          <input type="text" class="form-control" placeholder="Valor" id="valor" />
-        </div>
-
-        <div class="col-md-2 d-flex justify-content-end">
-          <button type="button" class="btn btn-primary" onclick="cadastrarDespesa()">
-            <i class="fas fa-plus"></i>
-          </button>
-        </div>
-      </div>
-    </div>
+    </form>
 
     <!-- Modal -->
     <div class="modal fade" id="modalRegistraDespesa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -129,5 +134,18 @@
     </div>
 
   </body>	
+  <script>
 
+    $(document).ready(function () {
+      $('#cadastro').on('submit', function (e) {
+        e.preventDefault();
+        cadastrarDespesa()
+      })
+    })
+
+    $('#valor').mask('000.000.000.000.000,00', {reverse: true});
+    function teste () {
+      return $("#valor").val()
+    }
+  </script>
 </html>

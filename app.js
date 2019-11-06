@@ -71,42 +71,34 @@ class Bd {
 
 		let despesasFiltradas = Array()
 		despesasFiltradas = this.recuperarTodosRegistros()
-		console.log(despesasFiltradas);
-		console.log(despesa)
 
 		//ano
 		if(despesa.ano != ''){
-			console.log("filtro de ano");
 			despesasFiltradas = despesasFiltradas.filter(d => d.ano == despesa.ano)
 		}
 			
 		//mes
 		if(despesa.mes != ''){
-			console.log("filtro de mes");
 			despesasFiltradas = despesasFiltradas.filter(d => d.mes == despesa.mes)
 		}
 
 		//dia
 		if(despesa.dia != ''){
-			console.log("filtro de dia");
 			despesasFiltradas = despesasFiltradas.filter(d => d.dia == despesa.dia)
 		}
 
 		//tipo
 		if(despesa.tipo != ''){
-			console.log("filtro de tipo");
 			despesasFiltradas = despesasFiltradas.filter(d => d.tipo == despesa.tipo)
 		}
 
 		//descricao
 		if(despesa.descricao != ''){
-			console.log("filtro de descricao");
 			despesasFiltradas = despesasFiltradas.filter(d => d.descricao == despesa.descricao)
 		}
 
 		//valor
 		if(despesa.valor != ''){
-			console.log("filtro de valor");
 			despesasFiltradas = despesasFiltradas.filter(d => d.valor == despesa.valor)
 		}
 
@@ -138,7 +130,7 @@ function cadastrarDespesa() {
 		dia.value, 
 		tipo.value, 
 		descricao.value,
-		valor.value.replace(',', '.')
+		valor.value
 	)
 
 
@@ -255,7 +247,7 @@ function carregaListaDespesas(despesas = Array(), filtro = false) {
 			
 			document.getElementById('modal_titulo').innerHTML = `Excluir <strong><em>${d.descricao}</em></strong> no valor de <em><strong>${d.valor}</strong></em> ?`
 			document.getElementById('modal_titulo_div').className = 'modal-header text-danger'
-			document.getElementById('modal_conteudo').innerHTML = 'Erro na gravação, verifique se todos os campos foram preenchidos corretamente!'
+			document.getElementById('modal_conteudo').innerHTML = 'Deseja realmente excluir esse item? (Essa ação não poderá ser desfeita!)'
 			document.getElementById('modal_btn_cancela').innerHTML = 'Cancelar e Voltar'
 			document.getElementById('modal_btn_cancela').className = 'btn btn-danger'
 			document.getElementById('modal_btn_confirma').innerHTML = 'Confirmar e Excluir'
@@ -270,7 +262,7 @@ function carregaListaDespesas(despesas = Array(), filtro = false) {
 
 		}
 		linha.insertCell(4).append(btn)
-		total += parseFloat(d.valor)
+		total += parseFloat(d.valor.replace('.', '').replace(',', '.'))
 	})
 
 	let linha = listaDespesas.insertRow();
@@ -281,8 +273,8 @@ function carregaListaDespesas(despesas = Array(), filtro = false) {
 
 	let td_total = linha.insertCell(1)
 	td_total.colSpan = '2'
-	td_total.style = 'text-align:center; text-transform: uppercase; font-weight: bold;' 
-	td_total.innerHTML = total.toFixed('2')
+	td_total.style = 'text-align:center; text-transform: uppercase; font-weight: bold;'
+	td_total.innerHTML =  floatParaDinheiro(total)
 
  }
 
@@ -301,5 +293,18 @@ function carregaListaDespesas(despesas = Array(), filtro = false) {
 	let despesas = bd.pesquisar(despesa)
 	 
 	this.carregaListaDespesas(despesas, true)
+
+ }
+
+ function floatParaDinheiro(valor){
+	$('body').append($('<input>', {style: 'display: none;', id: 'input_masked'}));
+	$("#input_masked").val(valor.toFixed(2).replace('.', ''))
+	$("#input_masked").mask('000.000.000.000.000,00', {reverse: true});
+
+	let masked = $("#input_masked").val()
+
+	$("#input_masked").remove()
+
+	return masked;
 
  }
