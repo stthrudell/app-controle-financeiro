@@ -69,10 +69,7 @@
 
     <div class="row mb-2">
       <div class="col-md-2">
-        <select class="form-control" id="ano">
-          <option value="">Ano</option>
-          <option value="2018">2018</option>
-        </select>
+        <select class="form-control" id="ano"></select>
       </div>
 
       <div class="col-md-2">
@@ -98,14 +95,7 @@
       </div>
 
       <div class="col-md-6">
-        <select class="form-control" id="tipo">
-          <option value="">Tipo</option>
-          <option value="1">Alimentação</option>
-          <option value="2">Educação</option>
-          <option value="3">Lazer</option>
-          <option value="4">Saúde</option>
-          <option value="5">Transporte</option>
-        </select>
+        <select class="form-control" id="tipo"></select>
       </div>
     </div>
 
@@ -168,7 +158,46 @@
   </div>
 
   <script>
+
+    function pegarAnos() {
+      let despesas = bd.recuperarTodosRegistros();
+      let anos = Array()
+      $("#ano").append('<option selected disabled>Ano</option>')
+      for (let index = 0; index < despesas.length; index++){
+        if (anos.indexOf(despesas[index].ano) == -1)
+          anos.push(despesas[index].ano);
+      }
+      anos.sort().forEach(function (e) {
+        $("#ano").append(`<option value="${e}">${e}</option>`);
+      });
+    }
+
+    function pegarTipo() {
+      tipos = {
+        1: 'Alimentação',
+        2: 'Educação',
+        3: 'Lazer',
+        4: 'Saúde',
+        5: 'Transporte'
+      }
+
+      let despesas = bd.recuperarTodosRegistros();
+      console.log(despesas)
+      let tipo = Array()
+      $("#tipo").append('<option selected disabled>Tipo</option>')
+      for (let index = 0; index < despesas.length; index++){
+        if (tipo.indexOf(despesas[index].tipo) == -1)
+          tipo.push(despesas[index].tipo);
+      }
+      tipo.sort().forEach(function (e) {
+        $("#tipo").append(`<option value="${e}">${tipos[e]}</option>`);
+      });
+    }
+
     $(document).ready(function () {
+      pegarAnos();
+      pegarTipo();
+
       //  Inicia a ordenação padrão vinda do HTML
       let sortItems = $(".header-sort")[0].children;
       for (let index = 0; index < sortItems.length; index++) {

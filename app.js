@@ -380,7 +380,6 @@ function qtdDias() {
 	let dia = $('#dia')
 	dia.empty()
 	dia.append('<option disabled selected>Dia</option>')
-	console.log(dia);
 	for (let d = 1; d <= dias ; d++) {
 		let opt =  document.createElement('option')
 		opt.setAttribute('value', d)
