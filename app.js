@@ -367,39 +367,30 @@ function floatParaDinheiro(valor) {
 
 }
 
-$(document).ready(function () {
-	//  Inicia a ordenação padrão vinda do HTML
-	let sortItems = $(".header-sort")[0].children;
-	for (let index = 0; index < sortItems.length; index++) {
-		let item = sortItems[index]
-		let sorted = item.getAttribute('sorted');
-		let sortType = item.getAttribute('sort-type');
-		if (sorted != null && sortType != null)
-			pesquisarDespesa(sortType, sorted);
+/* SETANDO dias em cada mes de cada ano */
+
+let getDaysInMonth = function(month,year) {
+   return new Date(year, month, 0).getDate();
+};
+
+function qtdDias() {
+	let ano = $('#ano').val()
+	let mes = $('#mes').val()
+	let dias = getDaysInMonth(mes, ano)
+	let dia = $('#dia')
+	dia.empty()
+	dia.append('<option disabled selected>Dia</option>')
+	console.log(dia);
+	for (let d = 1; d <= dias ; d++) {
+		let opt =  document.createElement('option')
+		opt.setAttribute('value', d)
+		opt.innerText = d
+		dia.append(opt)
 	}
+	
+}
 
-	// Ordena a lista de acordo com o click no campo
-	$(".header-sort").click(function (e) {
-		let clicked = e.target;
-		let sortedClicked = clicked.getAttribute('sorted');
-		let sortItems = $(".header-sort")[0].children;
-
-		for (let index = 0; index < sortItems.length; index++) {
-			let item = sortItems[index]
-			item.removeAttribute('sorted');
-		}
-
-		if (clicked.getAttribute('sort-type') != null) {
-			if (sortedClicked == null) {
-				clicked.setAttribute('sorted', 'crescent');
-			} else if (sortedClicked == 'crescent') {
-				clicked.setAttribute('sorted', 'decrescent');
-			} else {
-				clicked.removeAttribute('sorted');
-			}
-		}
-
-		pesquisarDespesa(clicked.getAttribute('sort-type'), clicked.getAttribute('sorted'));
-
-	})
+$(document).ready(function(){
+	$('#ano').on('change', qtdDias);
+	$('#mes').on('change', qtdDias);
 })
