@@ -162,7 +162,7 @@
     function pegarAnos() {
       let despesas = bd.recuperarTodosRegistros();
       let anos = Array()
-      $("#ano").append('<option selected disabled>Ano</option>')
+      $("#ano").append('<option selected value="">Ano</option>')
       for (let index = 0; index < despesas.length; index++){
         if (anos.indexOf(despesas[index].ano) == -1)
           anos.push(despesas[index].ano);
@@ -182,9 +182,8 @@
       }
 
       let despesas = bd.recuperarTodosRegistros();
-      console.log(despesas)
       let tipo = Array()
-      $("#tipo").append('<option selected disabled>Tipo</option>')
+      $("#tipo").append('<option selected value="">Tipo</option>')
       for (let index = 0; index < despesas.length; index++){
         if (tipo.indexOf(despesas[index].tipo) == -1)
           tipo.push(despesas[index].tipo);

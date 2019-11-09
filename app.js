@@ -322,6 +322,8 @@ function pesquisarDespesa(campo = null, ordem = null) {
 	let descricao = document.getElementById("descricao").value
 	let valor = document.getElementById("valor").value
 
+	console.log(ano, mes, dia, tipo, descricao, valor);
+
 	let despesa = new Despesa(ano, mes, dia, tipo, descricao, valor)
 
 	let despesas = bd.pesquisar(despesa)
