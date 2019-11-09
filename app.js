@@ -9,8 +9,8 @@ class Despesa {
 	}
 
 	validarDados() {
-		for(let i in this) {
-			if(this[i] == undefined || this[i] == '' || this[i] == null) {
+		for (let i in this) {
+			if (this[i] == undefined || this[i] == '' || this[i] == null) {
 				return false
 			}
 		}
@@ -23,7 +23,7 @@ class Bd {
 	constructor() {
 		let id = localStorage.getItem('id')
 
-		if(id === null) {
+		if (id === null) {
 			localStorage.setItem('id', 0)
 		}
 	}
@@ -49,14 +49,14 @@ class Bd {
 		let id = localStorage.getItem('id')
 
 		//recuperar todas as despesas cadastradas em localStorage
-		for(let i = 1; i <= id; i++) {
+		for (let i = 1; i <= id; i++) {
 
 			//recuperar a despesa
 			let despesa = JSON.parse(localStorage.getItem(i))
 
 			//existe a possibilidade de haver índices que foram pulados/removidos
 			//nestes casos nós vamos pular esses índices
-			if(despesa === null) {
+			if (despesa === null) {
 				continue
 			}
 
@@ -67,42 +67,42 @@ class Bd {
 		return despesas
 	}
 
-	pesquisar(despesa){
+	pesquisar(despesa) {
 
 		let despesasFiltradas = Array()
 		despesasFiltradas = this.recuperarTodosRegistros()
 
 		//ano
-		if(despesa.ano != ''){
+		if (despesa.ano != '') {
 			despesasFiltradas = despesasFiltradas.filter(d => d.ano == despesa.ano)
 		}
-			
+
 		//mes
-		if(despesa.mes != ''){
+		if (despesa.mes != '') {
 			despesasFiltradas = despesasFiltradas.filter(d => d.mes == despesa.mes)
 		}
 
 		//dia
-		if(despesa.dia != ''){
+		if (despesa.dia != '') {
 			despesasFiltradas = despesasFiltradas.filter(d => d.dia == despesa.dia)
 		}
 
 		//tipo
-		if(despesa.tipo != ''){
+		if (despesa.tipo != '') {
 			despesasFiltradas = despesasFiltradas.filter(d => d.tipo == despesa.tipo)
 		}
 
 		//descricao
-		if(despesa.descricao != ''){
+		if (despesa.descricao != '') {
 			despesasFiltradas = despesasFiltradas.filter(d => d.descricao == despesa.descricao)
 		}
 
 		//valor
-		if(despesa.valor != ''){
+		if (despesa.valor != '') {
 			despesasFiltradas = despesasFiltradas.filter(d => d.valor == despesa.valor)
 		}
 
-		
+
 		return despesasFiltradas
 
 	}
@@ -125,16 +125,16 @@ function cadastrarDespesa() {
 	let valor = document.getElementById('valor')
 
 	let despesa = new Despesa(
-		ano.value, 
-		mes.value, 
-		dia.value, 
-		tipo.value, 
+		ano.value,
+		mes.value,
+		dia.value,
+		tipo.value,
 		descricao.value,
 		valor.value
 	)
 
 
-	if(despesa.validarDados()) {
+	if (despesa.validarDados()) {
 		bd.gravar(despesa)
 
 		document.getElementById('modal_titulo').innerHTML = 'Registro inserido com sucesso'
@@ -144,17 +144,17 @@ function cadastrarDespesa() {
 		document.getElementById('modal_btn').className = 'btn btn-success'
 
 		//dialog de sucesso
-		$('#modalRegistraDespesa').modal('show') 
+		$('#modalRegistraDespesa').modal('show')
 
-		ano.value = '' 
+		ano.value = ''
 		mes.value = ''
 		dia.value = ''
 		tipo.value = ''
 		descricao.value = ''
 		valor.value = ''
-		
+
 	} else {
-		
+
 		document.getElementById('modal_titulo').innerHTML = 'Erro na inclusão do registro'
 		document.getElementById('modal_titulo_div').className = 'modal-header text-danger'
 		document.getElementById('modal_conteudo').innerHTML = 'Erro na gravação, verifique se todos os campos foram preenchidos corretamente!'
@@ -162,18 +162,18 @@ function cadastrarDespesa() {
 		document.getElementById('modal_btn').className = 'btn btn-danger'
 
 		//dialog de erro
-		$('#modalRegistraDespesa').modal('show') 
+		$('#modalRegistraDespesa').modal('show')
 	}
 }
 
 function carregaListaDespesas(despesas = Array(), filtro = false) {
 
-    if(despesas.length == 0 && filtro == false){
-		despesas = bd.recuperarTodosRegistros() 
+	if (despesas.length == 0 && filtro == false) {
+		despesas = bd.recuperarTodosRegistros()
 	}
 
-	
-	
+
+
 
 	/*
 
@@ -189,21 +189,21 @@ function carregaListaDespesas(despesas = Array(), filtro = false) {
 	let listaDespesas = document.getElementById("listaDespesas")
 	let total = 0
 	listaDespesas.innerHTML = ''
-	
+
 	//Caso não tenha retorno na pesquisa
-	if(despesas.length == 0 && filtro == true){
+	if (despesas.length == 0 && filtro == true) {
 		//Criando a linha (tr)		
 		let linha = listaDespesas.insertRow();
 		let t_d1 = linha.insertCell(0)
 		t_d1.colSpan = '5'
-		t_d1.style = 'text-align:center;' 
+		t_d1.style = 'text-align:center;'
 		t_d1.innerHTML = 'Nenhum registro encontrado'
 
 		//Criando a linha (tr)		
 		let btn = document.createElement("button")
 		btn.className = 'btn btn-danger'
 		btn.innerHTML = '<i class="fas fa-times"></i> Limpar pesquisa'
-		btn.onclick = function() {
+		btn.onclick = function () {
 			window.location.reload()
 		}
 		var linha2 = listaDespesas.insertRow();
@@ -213,15 +213,15 @@ function carregaListaDespesas(despesas = Array(), filtro = false) {
 		t_d2.append(btn)
 	}
 
-	despesas.forEach(function(d){
+	despesas.forEach(function (d) {
 
 		//Criando a linha (tr)
 		let linha = listaDespesas.insertRow();
 		//Criando as colunas (td)
-		linha.insertCell(0).innerHTML = `${d.dia}/${d.mes}/${d.ano}` 
+		linha.insertCell(0).innerHTML = `${d.dia}/${d.mes}/${d.ano}`
 
 		//Ajustar o tipo
-		switch(d.tipo){
+		switch (d.tipo) {
 			case '1': d.tipo = 'Alimentação'
 				break
 			case '2': d.tipo = 'Educação'
@@ -232,19 +232,19 @@ function carregaListaDespesas(despesas = Array(), filtro = false) {
 				break
 			case '5': d.tipo = 'Transporte'
 				break
-			
+
 		}
 		linha.insertCell(1).innerHTML = d.tipo
 		linha.insertCell(2).innerHTML = d.descricao
 		linha.insertCell(3).innerHTML = d.valor
-		
+
 		//criar o botão de exclusão
 		let btn = document.createElement("button")
 		btn.className = 'btn btn-danger'
 		btn.innerHTML = '<i class="fas fa-times"></i>'
 		btn.id = `id_despesa_${d.id}`
-		btn.onclick = function() {
-			
+		btn.onclick = function () {
+
 			document.getElementById('modal_titulo').innerHTML = `Excluir <strong><em>${d.descricao}</em></strong> no valor de <em><strong>${d.valor}</strong></em> ?`
 			document.getElementById('modal_titulo_div').className = 'modal-header text-danger'
 			document.getElementById('modal_conteudo').innerHTML = 'Deseja realmente excluir esse item? (Essa ação não poderá ser desfeita!)'
@@ -252,13 +252,13 @@ function carregaListaDespesas(despesas = Array(), filtro = false) {
 			document.getElementById('modal_btn_cancela').className = 'btn btn-danger'
 			document.getElementById('modal_btn_confirma').innerHTML = 'Confirmar e Excluir'
 			document.getElementById('modal_btn_confirma').className = 'btn btn-success'
-			let id = this.id.replace('id_despesa_', '')		
-			document.getElementById('modal_btn_confirma').onclick = function() {				
+			let id = this.id.replace('id_despesa_', '')
+			document.getElementById('modal_btn_confirma').onclick = function () {
 				bd.remover(id)
 				window.location.reload()
 			}
 			//dialog de erro
-			$('#modalRegistraDespesa').modal('show') 			
+			$('#modalRegistraDespesa').modal('show')
 
 		}
 		linha.insertCell(4).append(btn)
@@ -268,20 +268,54 @@ function carregaListaDespesas(despesas = Array(), filtro = false) {
 	let linha = listaDespesas.insertRow();
 	let label_total = linha.insertCell(0)
 	label_total.colSpan = '3'
-	label_total.style = 'text-align:center; text-transform: uppercase; font-weight: bold;' 
+	label_total.style = 'text-align:center; text-transform: uppercase; font-weight: bold;'
 	label_total.innerHTML = 'Total:'
 
 	let td_total = linha.insertCell(1)
 	td_total.colSpan = '2'
 	td_total.style = 'text-align:center; text-transform: uppercase; font-weight: bold;'
-	td_total.innerHTML =  floatParaDinheiro(total)
+	td_total.innerHTML = floatParaDinheiro(total)
 
- }
+}
 
- 
- function pesquisarDespesa(){
-	 
-	let ano  = document.getElementById("ano").value
+// funções de comparação para a função SORT()
+function ordenaData(a, b) {
+	if (a.ano != b.ano)
+		return a.ano > b.ano ? 1 : -1;
+	else if (a.mes != b.mes)
+		return a.mes > b.mes ? 1 : -1;
+	else if (a.dia != b.dia)
+		return a.dia > b.dia ? 1 : -1;
+	else
+		return 0;
+}
+
+function ordenaValor(a, b) {
+	let a_valor = a.valor.replace('.', '').replace(',', '.');
+	let b_valor = b.valor.replace('.', '').replace(',', '.');
+
+	if (a_valor != b_valor)
+		return a_valor > b_valor ? 1 : -1;
+	else return 0
+}
+
+function ordenaAlfabeto(a, b) {
+	if (a != b)
+		return a > b ? 1 : -1;
+	else return 0
+}
+
+function ordenaTipo(a, b) {
+	return ordenaAlfabeto(a.tipo, b.tipo);
+}
+
+function ordenaDescricao(a, b) {
+	return ordenaAlfabeto(a.descricao, b.descricao);
+}
+
+function pesquisarDespesa(campo = null, ordem = null) {
+
+	let ano = document.getElementById("ano").value
 	let mes = document.getElementById("mes").value
 	let dia = document.getElementById("dia").value
 	let tipo = document.getElementById("tipo").value
@@ -291,15 +325,39 @@ function carregaListaDespesas(despesas = Array(), filtro = false) {
 	let despesa = new Despesa(ano, mes, dia, tipo, descricao, valor)
 
 	let despesas = bd.pesquisar(despesa)
-	 
-	this.carregaListaDespesas(despesas, true)
 
- }
+	// ordena a lista de acordo com o parametro ordem e campo
+	if (ordem == null)
+		this.carregaListaDespesas(despesas, true);
+	else {
+		let ordenado = null;
+		switch (campo) {
+			case 'data':
+				ordenado = despesas.sort(ordenaData)
+				break;
+			case 'value':
+				ordenado = despesas.sort(ordenaValor)
+				break;
+			case 'type':
+				ordenado = despesas.sort(ordenaTipo)
+				break;
+			case 'desc':
+				ordenado = despesas.sort(ordenaDescricao)
+				break;
+			default:
+				ordenado = despesas;
+				break;
+		}
+		if (ordem == 'decrescent')
+			ordenado = ordenado.reverse()
+		this.carregaListaDespesas(ordenado, true);
+	}
+}
 
- function floatParaDinheiro(valor){
-	$('body').append($('<input>', {style: 'display: none;', id: 'input_masked'}));
+function floatParaDinheiro(valor) {
+	$('body').append($('<input>', { style: 'display: none;', id: 'input_masked' }));
 	$("#input_masked").val(valor.toFixed(2).replace('.', ''))
-	$("#input_masked").mask("#.##0,00", {reverse: true});
+	$("#input_masked").mask("#.##0,00", { reverse: true });
 
 	let masked = $("#input_masked").val()
 
@@ -307,4 +365,41 @@ function carregaListaDespesas(despesas = Array(), filtro = false) {
 
 	return masked;
 
- }
+}
+
+$(document).ready(function () {
+	//  Inicia a ordenação padrão vinda do HTML
+	let sortItems = $(".header-sort")[0].children;
+	for (let index = 0; index < sortItems.length; index++) {
+		let item = sortItems[index]
+		let sorted = item.getAttribute('sorted');
+		let sortType = item.getAttribute('sort-type');
+		if (sorted != null && sortType != null)
+			pesquisarDespesa(sortType, sorted);
+	}
+
+	// Ordena a lista de acordo com o click no campo
+	$(".header-sort").click(function (e) {
+		let clicked = e.target;
+		let sortedClicked = clicked.getAttribute('sorted');
+		let sortItems = $(".header-sort")[0].children;
+
+		for (let index = 0; index < sortItems.length; index++) {
+			let item = sortItems[index]
+			item.removeAttribute('sorted');
+		}
+
+		if (clicked.getAttribute('sort-type') != null) {
+			if (sortedClicked == null) {
+				clicked.setAttribute('sorted', 'crescent');
+			} else if (sortedClicked == 'crescent') {
+				clicked.setAttribute('sorted', 'decrescent');
+			} else {
+				clicked.removeAttribute('sorted');
+			}
+		}
+
+		pesquisarDespesa(clicked.getAttribute('sort-type'), clicked.getAttribute('sorted'));
+
+	})
+})

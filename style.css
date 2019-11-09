@@ -1,0 +1,27 @@
+.header-sort > [sort-type]{
+    cursor: pointer;    
+}
+
+.header-sort > [sort-type]:hover::after{
+    font-family: "Font Awesome 5 Free"; 
+    font-weight: 900;
+    content: '\f063';
+    color: lightgray;
+    margin-left: 5px;
+}
+
+[sorted]::after {                  
+    font-family: "Font Awesome 5 Free"; 
+    font-weight: 900;
+    margin-left: 5px;
+}
+
+[sorted='crescent']::after, 
+[sorted='decrescent']:hover::after{               
+    content: '\f063' !important;    
+}
+
+[sorted='decrescent']::after, 
+[sorted='crescent']:hover::after {               
+    content: '\f062' !important;
+}
