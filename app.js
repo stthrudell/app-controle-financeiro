@@ -300,18 +300,17 @@ function ordenaValor(a, b) {
 }
 
 function ordenaAlfabeto(a, b) {
-	if (a != b)
+	
+	if (a.toUpperCase() != b.toUpperCase())
 		return a > b ? 1 : -1;
-	else return 0
+	else
+		return 0
 }
 
 function ordenaTipo(a, b) {
 	return ordenaAlfabeto(a.tipo, b.tipo);
 }
 
-function ordenaDescricao(a, b) {
-	return ordenaAlfabeto(a.descricao, b.descricao);
-}
 
 function pesquisarDespesa(campo = null, ordem = null) {
 
@@ -340,9 +339,6 @@ function pesquisarDespesa(campo = null, ordem = null) {
 				break;
 			case 'type':
 				ordenado = despesas.sort(ordenaTipo)
-				break;
-			case 'desc':
-				ordenado = despesas.sort(ordenaDescricao)
 				break;
 			default:
 				ordenado = despesas;
@@ -383,6 +379,9 @@ function qtdDias() {
 	console.log(dia);
 	for (let d = 1; d <= dias ; d++) {
 		let opt =  document.createElement('option')
+		if (d <= 9){
+			d = '0' + d
+		}
 		opt.setAttribute('value', d)
 		opt.innerText = d
 		dia.append(opt)
