@@ -1,0 +1,146 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Orçamento pessoal</title>
+
+    <!-- Bootstrap início -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <!-- Bootstrap fim -->
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Font Awesome -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+    <!-- Jquery Mask -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+    <!-- Chart -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+
+    <script src="app.js"></script>
+
+</head>
+
+<body>
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-5">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="logo.png" width="50" height="35" alt="Orçamento pessoal">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Cadastro</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="consulta.html">Consulta</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="graficos.html">Gráficos</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col">
+                <h5 class="text-center">Gastos por <strong>ANO</strong></h5>
+                <canvas id="grafico-ano" width="200" height="50"></canvas>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        var graficoAno = document.getElementById('grafico-ano');
+        let dadosAnos = {
+            type: 'pie',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                animateRotate: true,
+            }
+        }
+
+        function pegarAnos() {
+            let despesas = bd.recuperarTodosRegistros();
+            for (let i = 0; i < despesas.length; i++) {
+                if (dadosAnos.data.labels.indexOf(despesas[i].ano) == -1) {
+                    dadosAnos.data.labels.push(despesas[i].ano)
+                }             
+            }
+            
+            for (let a = 0; a < dadosAnos.data.labels.length; a++) {
+                let despesa = new Despesa(dadosAnos.data.labels[a], '', '', '', '', '')
+                pesquisaAno = bd.pesquisar(despesa)
+                let total = 0
+                for(let soma = 0; soma < pesquisaAno.length; soma++) {
+                    total += parseFloat(pesquisaAno[soma].valor.replace('.', '').replace(',', '.'))                        
+                }
+                console.log(total)
+                dadosAnos.data.datasets[0].data.push(total)
+            }
+        }
+        let anosRetornados = pegarAnos()
+
+        let despesa = new Despesa(2018, '', '', '', '', '')
+        pesquisaAno = bd.pesquisar(despesa)
+
+        var myPieChart = new Chart(graficoAno, dadosAnos);
+
+    </script>
+
+
+
+
+
+</body>
+
+</html>
